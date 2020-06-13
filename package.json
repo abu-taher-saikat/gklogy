@@ -1,0 +1,30 @@
+{
+  "name": "gklogy",
+  "version": "1.0.0",
+  "description": "it's a genarel knowledge shareing website",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/saikat1095/gklogy.git"
+  },
+  "author": "Saikat.io",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/saikat1095/gklogy/issues"
+  },
+  "homepage": "https://github.com/saikat1095/gklogy#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.19.0",
+    "connect-flash": "^0.1.1",
+    "express": "^4.17.1",
+    "express-handlebars": "^4.0.4",
+    "express-session": "^1.17.1",
+    "method-override": "^3.0.0",
+    "mongoose": "^5.9.18",
+    "passport": "^0.4.1"
+  }
+}

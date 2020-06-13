@@ -1,0 +1,23 @@
+  
+<div class="row" id="raw">
+    <div class="col-md-6 mx-auto">
+        <div class="card card-body">
+            <h3 class="text-center">Account login</h3>
+            <form action="/users/login" method="POST">
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" class="form-control" name="email" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" class="form-control" name="password" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+            <h6 class="pt-3 text-center">Don't have an account ? <a href="/users/register">Sign up here</a></h6>
+        </div>
+    </div>
+</div>
+
+{{!-- <h1>login</h1> --}}
