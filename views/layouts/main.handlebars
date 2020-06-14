@@ -22,7 +22,10 @@
     {{!-- navbar partials --}}
     <div class="site-wrap">
         {{> _navbar}}
-            {{{body}}}
+        {{> _msg}}
+        {{> _errors}}
+            {{!-- body --}}
+        {{{body}}}
         {{> _footer}}
     </div>
 
