@@ -17,16 +17,13 @@ router.get("/login",(req, res)=>{
 // Login form post
 router.post('/login',(req, res, next)=>{
     passport.authenticate('local',{
-        successRedirect : '/users/qn',
+        successRedirect : '/questions/qn',
         failureRedirect : "/users/login",
         failureFlash : true
     })(req, res, next);
 })
 
-// qn
-router.get('/qn',(req, res)=>{
-    res.send('welcome to qn dashboard');
-})
+
 
 // User Register Route
 router.get("/register",(req, res)=>{
@@ -79,6 +76,14 @@ router.post('/register',(req, res)=>{
         })
     }
 })
+
+// Logout User
+router.get('/logout',(req, res)=>{
+    req.logout();
+    req.flash('success_msg','You are logged in');
+    res.redirect('/');
+})
+
 
 
 module.exports = router;

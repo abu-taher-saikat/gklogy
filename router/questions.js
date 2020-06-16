@@ -1,13 +1,13 @@
 const express = require('express');
 const router = express.Router();
-
+const {ensureAuthenticated} = require('../helpers/auth');
 
 // require questions model
 const Questions = require('./../models/Question');
 
 // Question index page
-router.get('/',(req, res)=>{
-    Questions.find({})
+router.get('/',ensureAuthenticated,(req, res)=>{
+    Questions.find({user : req.user.id})//for access control
     .sort({date : 'desc'})
     .then(questions =>{
         res.render('index',{
@@ -16,18 +16,49 @@ router.get('/',(req, res)=>{
     })
 })
 
-// router.get('/',(req, res)=>{
-//     // res.send("done")
-//     res.render('index');
-// })
+
 
 // add question from
 router.get('/add',(req, res)=>{
     res.render('questions/add');
 })
 
+// qn
+router.get('/qn',(req, res)=>{
+    Questions.find({})
+    .sort({date : 'desc'})
+    .then(questions =>{
+        res.render('questions/index',{
+            questions :  questions
+        })
+    })
+})
+
+// Edit question from
+router.get('/edit/:id',ensureAuthenticated, async (req, res)=>{
+    try{
+        // const id = req.params.id;
+        await Questions.findOne({_id : req.params.id})
+        .then(questions =>{
+            if(questions.user != req.user.id){
+                req.flash('error_msg',"Not Authorized");
+                // res.redirect('/questions/edit');
+                res.redirect('/');
+            }else{
+                res.render('questions/edit',{
+                    questions : questions
+                })
+            }
+        })
+    }catch(err){
+        console.log(err);
+    }
+})
+
+
+
 // add question from process
-router.post('/',(req, res)=>{
+router.post('/',ensureAuthenticated,(req, res)=>{
     let errors = [];
 
     if(!req.body.title){
@@ -57,6 +88,55 @@ router.post('/',(req, res)=>{
         })
     }
 
+})
+
+
+// Edit Form process
+router.put('/:id',ensureAuthenticated,(req, res)=>{
+    Questions.findOne({_id : req.params.id})
+    .then(questions =>{
+        // new values
+        questions.title = req.body.title;
+        questions.answer = req.body.answer;
+
+        questions.save()
+        .then(()=>{
+            req.flash('success_msg',"question updated");
+            // res.redirect("/questions/qn");
+            res.redirect("/");
+        })
+    })
+})
+
+
+// delete questions
+router.delete('/:id',ensureAuthenticated, async (req, res)=>{
+    // res.send(delete);
+    // try{
+    //     await Questions.deleteOne({_id : req.params.id})
+    //     .then(()=>{
+    //         req.flash('success_msg',"Question removed");
+    //         res.redirect('/');
+    //     })
+    // }catch(err){
+    //     console.log(err);
+    // }
+    try{
+        // const id = req.params.id;
+        await Questions.deleteOne({_id : req.params.id})
+        .then(questions =>{
+            if(questions.user != req.user.id){
+                req.flash('error_msg',"Not Authorized");
+                // res.redirect('/questions/edit');
+                res.redirect('/');
+            }else{
+                req.flash('success_msg',"question removed");
+                res.redirect('/');
+            }
+        })
+    }catch(err){
+        console.log(err);
+    }
 })
 
 

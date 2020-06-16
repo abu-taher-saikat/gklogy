@@ -8,6 +8,17 @@ const methodeOverride = require('method-override');
 const path = require('path');
 const passport = require('passport');
 
+// auth helper
+const {ensureAuthenticated} = require('./helpers/auth');
+
+// fixing handlebars read data from mongo problem && Import function exported by newly installed node  
+const Handlebars = require('handlebars');
+const { allowInsecurePrototypeAccess } = require("@handlebars/allow-prototype-access");
+
+
+
+// model
+const Questions = require('./models/Question');
 
 const app = express();
 
@@ -21,6 +32,7 @@ require('./config/passport')(passport);
 
 // mongo atlas
 const atlas = 'mongodb+srv://saikat:saikat1095@cluster0-htwdq.mongodb.net/gklogy?retryWrites=true&w=majority';
+// const localdb = 'mongodb://127.0.0.1:27017/gklogy'
 
 // connect to mongo db
 mongoose.connect(atlas, {
@@ -33,7 +45,7 @@ mongoose.connect(atlas, {
 // handlebars middlewares
 app.engine('handlebars', exphbs({
     defaultLayout : 'main',
-    // handlebars : allowInsecurePrototypeAccess(Handlebars)
+    handlebars : allowInsecurePrototypeAccess(Handlebars)
 }));
 app.set('view engine', 'handlebars');
 
@@ -79,8 +91,14 @@ app.use('/questions', questions);
 
 
 app.get('/',(req, res)=>{
-    // res.send("done")
-    res.render('index');
+    Questions.find({})
+    .sort({date : 'desc'})
+    .then(questions =>{
+        res.render('index',{
+            questions :  questions,
+        })
+    })
+    // res.render('index');
 })
 
 

@@ -4917,3 +4917,10 @@
 .icon-zoom_out_map:before {
   content: "\e56b";
 }
+.icon-edit_btn:before{
+  content: "\f044";
+}
+.icon-delete_btn:before{
+  content: "\f1f8";
+}
+

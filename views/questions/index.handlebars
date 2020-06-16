@@ -1,0 +1,43 @@
+
+    {{!-- question section start--}}
+<div class="question">
+  <div class="container pt-5">
+    <div class="row d-flex justify-center">
+      {{#each questions}}
+      <div class="col-sm-6 col-md-6 col-lg-3" data-aos="fade">
+        <div class="card mb-2 px-2" style="width: 17rem;">
+          <div class="card-body">
+            <p class="card-text text-bold">{{title}}</p>
+            <p class="card-text">{{answer}}</p>
+
+            {{!-- edit and delete --}}
+            <div class="d-flex justify-content-between">
+              {{!-- edit --}} 
+              <a class="btn btn-sm btn-outline-info" href="/questions/edit/{{id}}" class="mb-2">
+                <div class="icon d-flex align-items-center align-self-start">
+                  <span class="icon-edit_btn pr-1"></span>EDIT
+                </div>
+              </a>
+
+              {{!-- delete form --}}
+              <form action="/questions/{{id}}?_method=DELETE" method="POST">
+                <input type="hidden" name="_method" value="DELETE">
+                  <input type="submit" class="btn btn-outline-warning" value="DELETE">
+                {{!-- <input type="hidden" name="_method" value="DELETE">
+                <button type="submit" class="btn btn-sm btn-outline-danger">
+                  <div class="icon align-self-start">
+                    <span class="icon-delete_btn"></span> Delete
+                  </div>
+                </button> --}}
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      {{else}}
+      <p>There is no Question listed</p>
+      {{/each}}
+    </div>
+  </div>
+</div>
+{{!-- question section end--}}
